@@ -144,7 +144,24 @@
         .conversion button:hover {
             background-color: #1d4ed8;
         }
+        .payment_method {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .conversion select {
+            padding: 0.2rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            width: 50%;
+            box-sizing: border-box;
+        }
         .transaction-history {
+            grid-column: 1 / -1;
+            overflow-x: auto;
+        }
+        .notification-alerts {
             grid-column: 1 / -1;
             overflow-x: auto;
         }
@@ -171,6 +188,14 @@
             font-weight: 500;
             background-color: #bbf7d0;
             color: #166534;
+            display: inline-block;
+        }
+        .message{
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: #1D4ED8;
             display: inline-block;
         }
 
@@ -254,6 +279,23 @@
                         <button type="submit">Convert Now</button>
                     </form>
                 </div>
+                <div class="card conversion">
+                    <h3>BUY XCoin</h3>
+                    <form style="display: flex; flex-direction: column; gap: 0.6rem;"> <!--Noticed u don't use inline styles, but I just had to add this one😅,
+                        why? I didn't know which good name I could give another class for this, you can do it😁-->
+                        <div class="payment_method">
+                            <label for="payment_method">Payment method</label>
+                            <select id="payment_method" name="payment_method">
+                                <option value="mtn_momo">MTN MoMo</option>
+                                <option value="alipay">Alipay</option>
+                                <option value="wechat_pay">WeChat Pay</option>
+                            </select>
+                        </div>
+                        <input style="margin-top: 1rem;" type="number" id="amount" name="amount" placeholder="Enter amount in XCoin" required>
+                        <p>Equivalent in RMB: <strong id="rmb-value">0</strong></p>
+                        <button type="submit">Convert Now</button>
+                    </form>
+                </div>
                 <div class="card transaction-history">
                     <h3>Transaction History</h3>
                     <table>
@@ -275,7 +317,30 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="card notification-alerts">
+                    <h3>Notification/Alerts</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Message</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>2025-02-10</td>
+                                <td><span class="message">You successfully bought Xcoin
+                                    Payment method: MoMo</span></td>
+                            </tr>
+                            <tr>
+                                <td>2025-02-10</td>
+                                <td><span class="message">Successfully converted XCoin<br>payment method: RMB (Alipay/WeChat)</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
+
         </main>
     </div>
 </body>
