@@ -144,8 +144,9 @@ function UserDashboard() {
         }
       )
       .then((response) => {
-        // Show success message
-        console.log(response);
+        if (import.meta.env.DEV) {
+          console.log(response);
+        }
         if (currency === "fcfa") {
           alert(
             `Successfully converted ${data.amount} XCoin to ${currency} for phone ${data.phone}`
@@ -184,13 +185,17 @@ function UserDashboard() {
       .value;
 
     if (accountType.toLowerCase().includes("momo")) {
-      console.log("MTN MoMo selected");
+      if (import.meta.env.DEV) {
+        console.log("MTN MoMo selected");
+      }
       openModal();
       await getToken();
       setBuyAmt(amount);
       setBuyCurrency("XAF");
     } else if (accountType.toLowerCase().includes("wechat")) {
-      console.log("Alipay/WeChat selected");
+      if (import.meta.env.DEV) {
+        console.log("Alipay/WeChat selected");
+      }
       // Handle WeChat payment flow
       setBuyAmt(amount);
       setBuyCurrency("RMB");

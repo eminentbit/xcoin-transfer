@@ -129,8 +129,9 @@ function ConvertXcoinPage() {
       const destCurrency = (
         form.elements.namedItem("destCurrency") as HTMLSelectElement
       ).value;
-      console.log(destCurrency);
-
+      if (import.meta.env.DEV) {
+        console.log(destCurrency);
+      }
       if (destCurrency === "rmb") {
         const response = await axios.post(
           `${url}/transactions/request`,
@@ -174,8 +175,10 @@ function ConvertXcoinPage() {
             },
             { withCredentials: true }
           );
+          if (import.meta.env.DEV) {
+            console.log("Withdrawal successful:", response.data);
+          }
 
-          console.log("Withdrawal successful:", response.data);
           alert("Withdrawal request sent successfully!");
         } catch (error) {
           if (error instanceof AxiosError) {

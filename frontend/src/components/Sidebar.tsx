@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Home,
   ShoppingCart,
@@ -12,6 +12,7 @@ import {
 
 function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <div className="z-50">
@@ -73,8 +74,22 @@ function Sidebar() {
         </ul>
 
         {/* Logout Button */}
-        <img src="/Contact card alipay.jpg" alt="Contact Card Alipay" className="w-32 h-auto mx-auto my-4 rounded" />
-        <button className="flex items-center gap-3 px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 transition-colors duration-200">
+        <img
+          src="/Contact card alipay.jpg"
+          alt="Contact Card Alipay"
+          className="w-32 h-auto mx-auto my-4 rounded"
+        />
+        <button
+          type="button"
+          onClick={() => {
+            sessionStorage.removeItem("token");
+            sessionStorage.removeItem("user");
+            sessionStorage.removeItem("transaction_reference");
+            sessionStorage.removeItem("transaction_id");
+            navigate("/login");
+          }}
+          className="flex items-center gap-3 px-4 py-2 rounded-lg bg-red-600 hover:bg-red-700 transition-colors duration-200"
+        >
           <LogOut size={20} />
           Logout
         </button>

@@ -54,7 +54,6 @@ const getUser = async (): Promise<UserMin | null> => {
         throw decryptError;
       }
     } else {
-      // Handle non-encrypted response
       if (import.meta.env.DEV) {
         console.log("Response was not encrypted");
       }

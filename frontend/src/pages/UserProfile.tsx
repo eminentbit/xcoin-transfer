@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import Sidebar from "../components/Sidebar";
 import { UserProfile } from "@/utils/types";
-import { mockProfile } from "@/utils/data";
 import axios from "axios";
 import { decryptData, isEncryptedResponse } from "@/utils/CryptoService";
 
@@ -24,15 +23,19 @@ function ProfilePage() {
 
         if (isEncryptedResponse(response.data)) {
           const decryptedData = await decryptData(response.data);
-          console.log(decryptedData);
+          if (import.meta.env.DEV) {
+            console.log("Decrypted profile data:", decryptedData);
+          }
+          setTimeout(() => {
+            setProfile(decryptedData as UserProfile);
+            setFormData(decryptedData as UserProfile);
+            setIsLoading(false);
+          }, 800);
         }
-        setTimeout(() => {
-          setProfile(mockProfile);
-          setFormData(mockProfile);
-          setIsLoading(false);
-        }, 800);
       } catch (error) {
-        console.log(error);
+        if (import.meta.env.DEV) {
+          console.log(error);
+        }
       }
     };
 

@@ -20,7 +20,9 @@ const ProtectedWrapper: React.FC<ProtectedWrapperProps> = ({
         });
         if (isEncryptedResponse(response.data)) {
           const user = await decryptData(response.data);
-          console.log(user);
+          if (import.meta.env.DEV) {
+            console.log(user);
+          }
           setIsAuthenticated(!!user);
         }
       } catch {

@@ -40,7 +40,9 @@ const AdminLogin: React.FC = () => {
       }
     } catch (err) {
       setError("Login failed. Please try again.");
-      console.log("An error occured", err);
+      if (import.meta.env.DEV) {
+        console.log("An error occured", err);
+      }
     }
   };
 

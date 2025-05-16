@@ -14,7 +14,9 @@ const ContactSection = () => {
   const number = "+237672696261";
 
   const onSubmit = (data: ContactFormData) => {
-    console.log("Form submitted:", data);
+    if (import.meta.env.DEV) {
+      console.log("Form submitted:", data);
+    }
   };
 
   return (

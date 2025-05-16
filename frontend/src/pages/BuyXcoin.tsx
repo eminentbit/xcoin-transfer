@@ -89,8 +89,9 @@ function BuyXcoinPage() {
 
     // Merge country code (without '+') with phone number
     const mergedPhoneNumber = countryCode + phoneNum;
-    console.log("Merged Phone Number:", mergedPhoneNumber);
-
+    if (import.meta.env.DEV) {
+      console.log("Merged Phone Number:", mergedPhoneNumber);
+    }
     // Simulate API call
     setTimeout(() => {
       setIsLoading(false);

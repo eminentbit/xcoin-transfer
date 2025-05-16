@@ -56,7 +56,9 @@ const PaymentModal = ({
           withCredentials: true,
         }
       );
-      console.log("Payment Successful", response.data.data);
+      if (import.meta.env.DEV) {
+        console.log("Payment Successful", response.data.data);
+      }
       if (isEncryptedResponse(response.data)) {
         data = await decryptData(response.data);
       } else {
@@ -74,7 +76,9 @@ const PaymentModal = ({
 
     // Store each property separately
     try {
-      console.log("Data is:", data);
+      if (import.meta.env.DEV) {
+        console.log("Data is:", data);
+      }
       if (data.reference) {
         sessionStorage.setItem("transaction_reference", String(data.reference));
       }

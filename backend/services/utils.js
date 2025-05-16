@@ -16,18 +16,19 @@ function generatePaymentReference() {
 
 // Configure Nodemailer
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: process.env.SMTP_SERVER,
+  port: process.env.SMTP_PORT,
   auth: {
-    user: process.env.EMAIL_USER, // Your email
-    pass: process.env.EMAIL_PASS, // Your email password
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
   },
 });
 
 // Function to send email verification link
-function sendVerificationLink(email, token) {
+async function sendVerificationLink(email, token) {
   const verificationUrl = `${process.env.FRONTEND_URL}/verify-email?token=${token}`;
   const mailOptions = {
-    from: process.env.EMAIL_USER,
+    from: process.env.SENDER_EMAIL,
     to: email,
     subject: "Verify Your Email",
     html: `
@@ -41,7 +42,38 @@ function sendVerificationLink(email, token) {
     `,
   };
 
-  transporter.sendMail(mailOptions, (error, info) => {
+  await transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.log("Error sending email:", error);
+      return false;
+    } else {
+      console.log("Verification email sent:", info.response);
+      return true;
+    }
+  });
+}
+
+async function sendGetStarted(email) {
+  const mailOptions = {
+    from: process.env.SENDER_EMAIL,
+    to: email,
+    subject: "Welcome to Xcoin-Transfer",
+    html: `
+      <h1>Welcome to Xcoin-Transfer!</h1>
+      <p>Thank you for creating an account with us.</p>
+      <p>We're excited to have you on board. With Xcoin-Transfer, you can:</p>
+      <ul>
+        <li>Send and receive money securely</li>
+        <li>Track your transactions</li>
+        <li>Manage your digital assets</li>
+      </ul>
+      <p>If you need any assistance, please don't hesitate to contact our support team.</p>
+      <p>Best regards,</p>
+      <p>The Xcoin-Transfer Team</p>
+    `,
+  };
+
+  await transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       console.log("Error sending email:", error);
       return false;
@@ -53,6 +85,7 @@ function sendVerificationLink(email, token) {
 }
 
 module.exports = {
+  sendGetStarted,
   isAuthenticated,
   generatePaymentReference,
   sendVerificationLink,

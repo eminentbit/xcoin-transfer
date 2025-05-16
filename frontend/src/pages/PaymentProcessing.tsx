@@ -55,7 +55,9 @@ const PaymentProcessing: React.FC = () => {
         if (isEncryptedResponse(response.data)) {
           const data: { status: string } = await decryptData(response.data);
 
-          console.log("Status is: ", data.status);
+          if (import.meta.env.DEV) {
+            console.log("Status is:", data.status);
+          }
 
           if (
             data.status.toLowerCase().includes("failed") ||
@@ -71,7 +73,9 @@ const PaymentProcessing: React.FC = () => {
         console.error("Error checking transaction status:", error);
         setErrorMessage("Failed to check transaction status");
       }
-      console.log("Checking transaction status...", status);
+      if (import.meta.env.DEV) {
+        console.log("Checking transaction status...", status);
+      }
     };
 
     // Initial check

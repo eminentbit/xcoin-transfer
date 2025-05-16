@@ -13,7 +13,9 @@ async function getPaymentLink({
   redirectUrl?: string;
 }): Promise<string | undefined> {
   try {
-    console.log("Fetching payment link...");
+    if (import.meta.env.DEV) {
+      console.log("Fetching payment link...");
+    }
     const url = import.meta.env.VITE_ROOT_URL;
     const response = await axios.post(
       `${url}/payments/payment-link`,
@@ -25,8 +27,10 @@ async function getPaymentLink({
       },
       { withCredentials: true }
     );
+    if (import.meta.env.DEV) {
+      console.log("Payment link:", response.data);
+    }
 
-    console.log("Payment link:", response.data);
     if (isEncryptedResponse(response.data)) {
       const decryptedData: { transaction: { id: string }; link: string } =
         await decryptData(response.data);

@@ -51,7 +51,9 @@ const AdminDashboard: React.FC = () => {
           : response.data;
 
       setTransferRequests(data);
-      console.log(data);
+      if (import.meta.env.DEV) {
+        console.log(data);
+      }
       setFilteredRequests(data);
     } catch (error) {
       console.error("Error fetching transfer requests:", error);

@@ -11,6 +11,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          repository: JennisMike/xcoin-transfer
+          token: ${{ secrets.GITHUB_TOKEN }}
+          path: repo
 
       - name: Set up Git config
         run: |
@@ -19,6 +23,7 @@ jobs:
 
       - name: Add upstream and sync
         run: |
+          cd repo
           git remote add upstream https://github.com/eminentbit/xcoin-transfer.git
           git fetch upstream
           git checkout main

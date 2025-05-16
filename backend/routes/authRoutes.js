@@ -11,7 +11,7 @@ const { encryptResponse } = require("../services/crypto");
 const getClientIpAddress = require("../services/getClientIPAddress");
 
 const jwt = require("jsonwebtoken");
-const { sendVerificationLink } = require("../services/utils");
+const { sendVerificationLink, sendGetStarted } = require("../services/utils");
 
 router.post(
   "/register",
@@ -111,6 +111,8 @@ router.get("/verify-email", async (req, res) => {
       fullName: user.fullName,
     };
 
+    await sendGetStarted(user.email);
+
     res.status(200).json({ message: "Email verified successfully!" });
   } catch (error) {
     res.status(400).json({ error: "Invalid or expired token" });
@@ -171,13 +173,13 @@ router.get("/profile", async (req, res) => {
       return res.status(400).json({ error: "User not found" });
     }
 
-    res.status(200).json({
+    const profileData = {
       id: user.id,
       name: user.fullName,
       email: user.email,
       phone: user.phone,
-      country: "China",
-      joinedDate: "2023-07-15T08:30:00Z",
+      country: user.country,
+      joinedDate: user.createdAt,
       verificationLevel: "basic",
       avatarUrl: "",
       twoFactorEnabled: false,
@@ -190,7 +192,9 @@ router.get("/profile", async (req, res) => {
         push: false,
         marketingEmails: false,
       },
-    });
+    };
+
+    return res.status(200).json(encryptResponse(profileData));
   } catch (error) {
     res.status(500).json({ error: "Error", details: error.message });
   }

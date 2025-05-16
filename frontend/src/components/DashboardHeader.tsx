@@ -30,12 +30,14 @@ const Header: React.FC = () => {
   }, []);
 
   const handleLogout = async () => {
-    console.log("Logout clicked");
+    sessionStorage.removeItem("token");
+    sessionStorage.removeItem("user");
+    sessionStorage.removeItem("transaction_reference");
+    sessionStorage.removeItem("transaction_id");
+    navigate("/login");
   };
   const user: UserProfile = JSON.parse(sessionStorage.getItem("user") || "");
   const fName = user.name.split(" ");
-
-  console.log();
 
   return (
     <header className="flex justify-between items-center mb-8">
